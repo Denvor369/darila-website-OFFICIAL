@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Checkout</title>
+  <link rel="stylesheet" href="checkout.css">
+</head>
+<body>
+  <nav class="nav" role="navigation">
+  <div class="nav-inner">
+    <a class="brand" href="main.html" aria-label="Darila Official">
+      <span class="brand-text">Darila Official</span>
+    </a>
+
+    <!-- hamburger button (mobile) -->
+    <button class="nav-toggle" aria-expanded="false" aria-controls="site-nav" aria-label="Toggle menu">
+      <span class="burger" aria-hidden="true"><span></span><span></span><span></span></span>
+    </button>
+
+    <!-- cart -->
+    <div class="cart-icon-container" role="button" aria-label="Open cart" tabindex="0">
+      <a class="cart-link" href="bag.html" title="Open cart" aria-label="Open cart">
+        <svg class="cart-icon" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+          <path fill="currentColor" d="M7 18a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm10 0a1 1 0 1 0 0 2 1 1 0 0 0 0-2zM6.5 6h13l-1 6H8.5L6.5 6z"/>
+        </svg>
+        <span id="cart-quantity" class="cart-quantity">0</span>
+      </a>
+    </div>
+
+    <!-- nav links -->
+    <ul id="site-nav" class="nav-links" role="menu" aria-hidden="true">
+      <li><a href="main.html#home">Home</a></li>
+      <li><a href="main.html#products">Products</a></li>
+      <li><a href="main.html#contact">Contact</a></li>
+      <li><a href="payment.html">Payment</a></li>
+      <li class="nav-lang">
+        <select id="lang-switcher" onchange="switchLanguage(this.value)">
+          <option value="en">English</option>
+          <option value="kh">ភាសាខ្មែរ</option>
+        </select>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+  <main class="checkout-wrap">
+    <h1 calss="checkout">Checkout</h1>
+    <div class="checkout-grid">
+      <!-- LEFT: order summary list -->
+<!-- LEFT: order summary list -->
+<section class="panel glass" id="order-list">
+  <h3 style="margin-top:0">Order Summary</h3>
+  <div id="order-items">
+    <!-- injected -->
+  </div>
+</section>
+<!-- RIGHT: buyer info + totals -->
+<aside class="panel glass">
+  <h3 style="margin-top:0">Buyer Information</h3>
+        <form id="checkout-form">
+          <label for="name">Name *</label>
+          <input id="name" name="name" required style="width:93%;padding:10px;border-radius:8px;border:1px solid #e6e6e9;margin:8px 0 12px">
+          <label for="phone">Phone *</label>
+          <input id="phone" name="phone" required style="width:93%;padding:10px;border-radius:8px;border:1px solid #e6e6e9;margin:8px 0 12px">
+          <label for="address">Address *</label>
+          <input id="address" name="address" required style="width:93%;padding:10px;border-radius:8px;border:1px solid #e6e6e9;margin:8px 0 12px">
+          <div style="margin-top:6px" class="summary-box">
+            <div class="summary-row"><div>Subtotal</div><div id="subtotal">$0.00</div></div>
+            <div class="summary-row"><div>Delivery</div><div id="shipping">$0.00</div></div>
+            <hr style="border:none;border-top:1px dashed rgba(0,0,0,0.06);margin:8px 0">
+            <div class="summary-row" style="font-weight:800"><div>Total</div><div id="total">$0.00</div></div>
+          </div>
+          <button id="place-order" type="button" class="btn-primary" style="margin-top:12px">Place Order</button>
+        </form>
+      </aside>
+    </div>
+  </main>
+<script src="cart.js"></script>
+</body>
+</html>
