@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Mini Cart Test</title>
+<style>
+  :root{ --accent:#ff6b6b; --muted:#666; }
+  body{ font-family:system-ui,-apple-system; padding:24px; }
+  .products{ display:flex; gap:12px; }
+  .card{ border:1px solid #eee; padding:12px; width:180px; border-radius:8px; text-align:center; }
+  .cta{ background:var(--accent); color:#fff; border:0; padding:8px 10px; border-radius:8px; cursor:pointer; font-weight:700; }
+  /* floating button */
+  .floating-cart{ position:fixed; right:18px; bottom:18px; width:56px; height:56px; border-radius:999px; background:var(--accent); display:flex; align-items:center; justify-content:center; color:#fff; z-index:9999; border:0; cursor:pointer; }
+  .floating-cart-qty{ position:absolute; top:-6px; right:-6px; background:#111; color:#fff; min-width:20px; height:20px; padding:0 6px; border-radius:999px; font-weight:800; font-size:12px; display:flex; align-items:center; justify-content:center; }
+  /* mini-cart */
+  .mini-cart{ position:fixed; right:18px; bottom:88px; width:320px; background:#fff; border-radius:10px; box-shadow:0 12px 40px rgba(0,0,0,0.12); z-index:9998; display:none; flex-direction:column; overflow:hidden; }
+  .mini-cart.show{ display:flex; }
+  .mini-cart .list{ max-height:260px; overflow:auto; padding:12px; }
+  .mini-cart .item{ display:flex; justify-content:space-between; gap:12px; padding:8px 0; border-bottom:1px solid #f1f1f1; }
+  .mini-cart .footer{ padding:12px; display:flex; justify-content:space-between; align-items:center; gap:8px; }
+  .pulse { animation: pop .42s ease; }
+  @keyframes pop { 0%{ transform:scale(1) } 50%{ transform:scale(1.08) } 100%{ transform:scale(1) } }
+</style>
+</head>
+<body>
+  <h2>Mini Cart test</h2>
+  <div class="products">
+    <div class="card" data-id="p1" data-title="Sunscreen" data-price="4.8">
+      <div style="height:100px;background:#fafafa;border-radius:6px;margin-bottom:8px">img</div>
+      <div style="font-weight:800">Sunscreen</div>
+      <div style="color:var(--muted)">$4.80</div>
+      <button class="cta" data-id="p1">Add to bag</button>
+    </div>
+
+    <div class="card" data-id="p2" data-title="Fiber" data-price="14">
+      <div style="height:100px;background:#fafafa;border-radius:6px;margin-bottom:8px">img</div>
+      <div style="font-weight:800">Fiber</div>
+      <div style="color:var(--muted)">$14.00</div>
+      <button class="cta" data-id="p2">Add to bag</button>
+    </div>
+  </div>
+
+  <!-- floating -->
+  <button id="floating-cart" class="floating-cart" aria-label="Open cart">
+    🛒
+    <span id="floating-cart-qty" class="floating-cart-qty">0</span>
+  </button>
+
+  <!-- mini cart -->
+  <div id="mini-cart" class="mini-cart" role="dialog" aria-label="Shopping cart">
+    <div class="list" id="mini-cart-list"><div class="empty">Your bag is empty</div></div>
+    <div class="footer">
+      <div><strong>Subtotal:</strong> <span id="mini-sub">$0.00</span></div>
+      <button id="close-mini" class="cta" style="background:#444">Close</button>
+    </div>
+  </div>
+
+<script>
+  // minimal bag functions
+  const btns = document.querySelectorAll('.cta[data-id]');
+  function loadBag(){ try { return JSON.parse(localStorage.getItem('bag')||'[]'); } catch(e){ return []; } }
+  function saveBag(b){ localStorage.setItem('bag', JSON.stringify(b)); renderBadge(); }
+  function renderBadge(){ const total=loadBag().reduce((s,i)=>s+(i.qty||0),0); document.getElementById('floating-cart-qty').textContent=total; }
+  function addToBag(id, qty=1){
+    const bag = loadBag(); const idx = bag.findIndex(x=>x.id===id);
+    const card = document.querySelector('.card[data-id="'+id+'"]');
+    const title = card.dataset.title; const price = Number(card.dataset.price)||0;
+    if (idx===-1) bag.push({id,title,price,qty}); else bag[idx].qty=(bag[idx].qty||0)+qty;
+    saveBag(bag);
+    // pulse feedback
+    const f = document.getElementById('floating-cart'); f.classList.add('pulse'); setTimeout(()=>f.classList.remove('pulse'),420);
+  }
+
+  btns.forEach(b=>b.addEventListener('click', (e)=>{ addToBag(b.dataset.id,1); }));
+
+  // floating open mini cart
+  document.getElementById('floating-cart').addEventListener('click', ()=>{ renderMini(); document.getElementById('mini-cart').classList.toggle('show'); });
+
+  document.getElementById('close-mini').addEventListener('click', ()=>{ document.getElementById('mini-cart').classList.remove('show'); });
+
+  function renderMini(){
+    const list = document.getElementById('mini-cart-list');
+    const subEl = document.getElementById('mini-sub');
+    const bag = loadBag();
+    list.innerHTML='';
+    if (!bag.length){ list.innerHTML='<div class="empty">Your bag is empty</div>'; subEl.textContent='$0.00'; return;}
+    let subtotal=0;
+    bag.forEach(it=>{
+      const div=document.createElement('div'); div.className='item';
+      div.innerHTML = '<div>'+it.title+'</div><div>x'+(it.qty||0)+'</div>';
+      list.appendChild(div);
+      subtotal += (Number(it.price||0)*(it.qty||0));
+    });
+    subEl.textContent = '$'+subtotal.toFixed(2);
+  }
+
+  // initial render
+  renderBadge();
+  // quick console helpers
+  window.__debug = { loadBag, saveBag, renderMini, renderBadge };
+</script>
+</body>
+</html>

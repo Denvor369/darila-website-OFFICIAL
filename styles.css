@@ -1,0 +1,1202 @@
+/* Combined CSS: original stylesheet (as provided) + mobile carousel fixes/overrides for iPhone hit area */
+
+/* ===================================================================
+   Consolidated & cleaned stylesheet (merged from original + nav upgrade)
+   Paste/replace your existing CSS with this file.
+   =================================================================== */
+
+/* ---------------------------
+   Root variables & fonts
+   --------------------------- */
+:root{
+  --accent: #ff7a59;
+  --accent-2: #c760db;
+  --muted: #6b6f76;
+  --bg: #ffffff;
+  --surface: #ffffff;
+  --radius: 12px;
+  --max-width: 1200px; /* unified */
+  --gutter: 16px;
+  --text: #0b1220;
+  --nav-h: 64px;
+  font-size: clamp(14px, 1.8vw, 16px);
+}
+
+/* Kantumruy Pro (Khmer) */
+@font-face {
+  font-family: "Kantumruy Pro";
+  src: url("/minf/KantumruyPro-Regular.woff2") format("woff2"),
+       url("/minf/KantumruyPro-Regular.woff") format("woff");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+1780-17FF;
+}
+@font-face {
+  font-family: "Kantumruy Pro";
+  src: url("/minf/KantumruyPro-Bold.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+1780-17FF;
+}
+
+/* Khmer font rule when page language is Khmer */
+html[lang="kh"], body.lang-kh {
+  font-family: "Kantumruy Pro", "Noto Sans Khmer", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ---------------------------
+   Reset & base
+   --------------------------- */
+*{ box-sizing:border-box; margin:0; padding:0; }
+html, body { height:100%; -webkit-text-size-adjust:100%; }
+body{
+  margin:2px;
+  padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+  font-family: Inter, "Kantumruy Pro", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  background: url("pupebg.jpg") no-repeat center center fixed;
+  background-size: cover;
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* accessibility helpers */
+.sr-only{ position:absolute !important; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0; }
+
+/* ---------------------------
+   NAV (clean, responsive, accessible)
+   Replaces previous purple nav — integrated safely
+   --------------------------- */
+.nav {
+  position: fixed;
+  top: 0;
+  z-index: 120;
+  width: 100%;
+  backdrop-filter: blur(10px) saturate(120%);
+  -webkit-backdrop-filter: blur(10px) saturate(120%);
+  background: linear-gradient(180deg, rgba(255,255,255,0.6), rgba(255,255,255,0.5));
+  border-bottom: 1px solid rgba(11,18,32,0.05);
+  box-shadow: 0 6px 18px rgba(2,6,23,0.04);
+  transition: background .18s ease, box-shadow .18s ease, transform .18s ease;
+}
+
+/* nav inner */
+nav.nav .nav-inner,
+.nav-inner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 10px calc(var(--gutter) + env(safe-area-inset-left)) 10px calc(var(--gutter) + env(safe-area-inset-right));
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  height: var(--nav-h);
+  padding-top: calc(12px + env(safe-area-inset-top));
+}
+
+/* brand */
+@media (max-width: 430px){
+.brand{
+  font-family: "lilita one", sans-serif;
+  text-decoration:none;
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  font-size: 45px;
+}
+}
+.brand{
+  font-family: "lilita one", sans-serif;
+  text-decoration:none;
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  font-size: 45px;
+}
+.brand-gradient {
+  font-family: "Cal Sans", sans-serif;
+  font-weight:700;
+  letter-spacing: -0.02em;
+  background: linear-gradient(90deg, var(--accent-2), var(--accent));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  transition: transform .18s ease;
+}
+.brand:focus-visible .brand-gradient,
+.brand:hover .brand-gradient { transform: translateY(-3px); }
+
+/* nav right group */
+.nav-right{ display:flex; align-items:center; gap:12px; }
+
+/* cart */
+.cart .cart-btn,
+nav.nav .cart-btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  background:transparent;
+  border:0;
+  cursor:pointer;
+  position:relative;
+  padding:8px;
+  border-radius:10px;
+  color:var(--text);
+  transition: transform .12s ease, box-shadow .12s ease;
+}
+nav.nav .cart-btn:focus-visible { outline: 3px solid rgba(200,100,200,0.12); outline-offset:2px; }
+
+.floating-qty,
+nav.nav .floating-qty{
+  position:absolute;
+  right: -6px;
+  top: -6px;
+  min-width: 22px;
+  height: 22px;
+  padding:0 6px;
+  border-radius:999px;
+  background:#111;
+  color:#fff;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:900;
+  font-size:12px;
+  box-shadow: 0 8px 26px rgba(2,6,23,0.18);
+  transform-origin:center;
+}
+
+/* hamburger toggle */
+.nav-toggle{
+  display:none;
+  background:transparent;
+  border:0;
+  padding:8px;
+  border-radius:8px;
+  cursor:pointer;
+}
+.hamburger, .hamburger::before, .hamburger::after {
+  display:block;
+  width:18px; height:3px; background:var(--text); border-radius:2px;
+  position:relative; transition: transform .22s cubic-bezier(.3,.10,.6,1), opacity .18s ease;
+}
+.hamburger::before, .hamburger::after { content:""; position:absolute; left:0; }
+.hamburger::before { top:-7px; width:18px; }
+.hamburger::after { top:7px; width:18px; }
+
+.nav-toggle.open .hamburger { background: transparent; }
+.nav-toggle.open .hamburger::before { transform: rotate(45deg) translate(4px, 4px); width:22px; }
+.nav-toggle.open .hamburger::after { transform: rotate(-45deg) translate(4px, -4px); width:22px; }
+
+/* nav links (desktop) */
+.nav-links{
+  display:flex;
+  gap:10px;
+  align-items:center;
+  list-style:none;
+  margin:0;
+  padding:0;
+}
+.nav-links a{
+  color:var(--text);
+  text-decoration:none;
+  font-weight:700;
+  padding:8px 10px;
+  border-radius:8px;
+  position:relative;
+  transition: color .14s ease, transform .14s ease;
+}
+.nav-links a::after{
+  content:"";
+  position:absolute;
+  left:8px; right:8px;
+  bottom:6px;
+  height:3px;
+  border-radius:3px;
+  background:linear-gradient(90deg,var(--accent-2),var(--accent));
+  transform: scaleX(0);
+  transform-origin:left;
+  transition: transform .22s cubic-bezier(.2,.9,.3,1);
+  opacity:0.95;
+}
+.nav-links a:hover, .nav-links a:focus { color: var(--accent-2); transform: translateY(-2px); }
+.nav-links a:hover::after, .nav-links a:focus::after { transform: scaleX(1); }
+
+/* language selector */
+#lang-switcher{
+  padding:8px 10px;
+  border-radius:8px;
+  border:1px solid rgba(11,18,32,0.06);
+  background:transparent;
+  font-weight:700;
+}
+
+/* mobile overlay menu */
+@media (max-width:1080px){
+  .nav-toggle{ display:block; }
+  .nav-links{
+    position: fixed;
+    left:12px;
+    right:12px;
+    top: calc(var(--nav-h) + env(safe-area-inset-top));
+    background: linear-gradient(180deg, rgba(255,255,255,0.96), rgba(255,255,255,0.92));
+    border-radius:12px;
+    flex-direction:column;
+    padding:12px;
+    display:none;
+    box-shadow: 0 12px 30px rgba(2,6,23,0.12);
+    transform-origin: top center;
+  }
+  .nav-links.show { display:flex; animation: popIn .22s cubic-bezier(.2,.9,.3,1); }
+  @keyframes popIn{ from{ transform: translateY(-6px) scale(.99); opacity:0 } to{ transform:none; opacity:1 } }
+  .nav-links a { padding:14px 12px; font-size:1.02rem; border-radius:10px;}
+}
+
+/* scrolled style */
+.nav.scrolled {
+  box-shadow: 0 10px 40px rgba(112,112,112,0.08);
+  background: linear-gradient(180deg, rgba(255,255,255,0.78), rgba(255,255,255,0.7));
+  border-bottom-color: rgba(11,18,32,0.06);
+}
+
+/* reduced motion */
+@media (prefers-reduced-motion: reduce){
+  .nav-inner, .nav-links, .brand .brand-gradient, .cart-btn, .nav-toggle { transition: none !important; animation: none !important; }
+}
+
+/* small screen tweaks */
+@media (max-width: 430px){
+  .brand-gradient { font-size: 12.18px; font-family: "Cal Sans", sans-serif; }
+  .nav-inner { padding-left: calc(12px + env(safe-area-inset-left)); padding-right: calc(12px + env(safe-area-inset-right)); }
+  .nav-links { top: calc(56px + env(safe-area-inset-top)); left:10px; right:10px; }
+}
+
+/* ---------------------------
+   Original site styles (preserved & cleaned)
+   --------------------------- */
+
+/* headings used in original file */
+.contact-heading,
+.model-heading,
+.model-headning,
+.reviewtext,
+.product-title-main {
+  font-family: "Cal Sans", sans-serif;  
+    letter-spacing: 1px; /* adds space between letters */
+  color: #c760db;
+
+  font-size: 24px;
+  text-align: center;
+}
+
+/* hero / slides */
+.hero{ margin:15px 18px; display:flex; justify-content:center; }
+.slides{ width:min(100%, var(--max-width)); margin: 75px; aspect-ratio: 1.8/1; border-radius: 12px; overflow:hidden; position:relative; max-width:1920px; }
+.slide{ position:absolute; inset:0; background-size:cover; background-position:center; opacity:0; display:flex; align-items:flex-end; padding:24px; color:#fff; transition: opacity .6s ease, transform .6s ease; transform: scale(1.02); }
+.slide.show{ opacity:1; transform: scale(1.1); }
+.dots{ position:absolute; left:50%; transform:translateX(-50%); bottom:12px; display:flex; gap:8px; z-index:10; }
+.dot{ width:10px; height:10px; border-radius:50%; background:rgba(255,255,255,0.5); border:0; }
+.dot.active{ background:var(--accent); transform:scale(1.15); box-shadow: 0 6px 18px rgba(255,122,89,0.12); }
+
+/* main layout */
+main{ max-width:var(--max-width); margin:20px auto; padding:0 16px; }
+h2{ text-align:center; color:var(--muted); margin:18px 0; font-weight:700; }
+
+/* products grid & cards */
+.products-grid{
+  display:grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 18px;
+  align-items: start;
+}
+.product-card{
+  width:100%;
+  max-width:320px;
+  background: rgba(255,255,255,0.18);
+  backdrop-filter: blur(10px) saturate(120%);
+  -webkit-backdrop-filter: blur(10px) saturate(120%);
+  border-radius:12px;
+  padding:12px;
+  box-shadow: 0 6px 18px rgba(2,6,23,0.04);
+  transition: background .18s ease, box-shadow .18s ease, border-color .18s ease;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  position:relative;
+}
+.img-wrap{
+  width:100%;
+  height:160px;
+  border-radius:10px;
+  overflow:hidden;
+  background:#f4f6fb;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  position:relative;
+}
+.img-wrap img{ width:100%; height:100%; object-fit:cover; display:block; transition: transform .4s ease; position:absolute; inset:0; }
+.product-card:hover .img-wrap img{ transform: scale(1.04); }
+.product-title{ margin:12px 0 6px; font-weight:600; text-align:center; color:#575757;  font-family: "Cal Sans", sans-serif; /* adds space between letters */ }
+.product-titlea { color: #575757; font-family: "DM Serif Text", serif; }
+.price{ color: #ff6fa6; font-weight:800; font-size:1rem; margin-bottom:8px; }
+
+/* CTA */
+.cta{
+  display:block;
+  width:100%;
+  text-align:center;
+  background:#c760db;
+  color:#fff;
+  font-weight:800;
+  border:0;
+  border-radius:8px;
+  padding:10px 12px;
+  cursor:pointer;
+  box-sizing:border-box;
+  transition: background .16s ease, transform .08s ease;
+}
+.cta:hover{ transform: translateY(-2px); background:#ff6fa6; }
+.cta.disabled, .cta[disabled]{ background:#e6e6ea; color:#777; cursor:default; }
+
+/* qty controls */
+.qty-controls{ display:flex; justify-content:center; align-items:center; gap:8px; width:100%; }
+.qty-btn{ background:#fff; border:1px solid rgba(0,0,0,0.07); color:#222; padding:6px 10px; border-radius:8px; font-weight:700; cursor:pointer; min-width:36px; text-align:center; }
+.qty-btn:active{ transform: scale(.98); }
+.qty-number{ min-width:44px; background:#fff; border:1px solid rgba(0,0,0,0.06); padding:8px 12px; border-radius:8px; font-weight:700; text-align:center; color:#222; }
+
+/* toast */
+.add-toast{
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 18px;
+  background: rgba(10,10,10,0.92);
+  color: #fff;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-weight:700;
+  z-index: 9999;
+  box-shadow: 0 6px 22px rgba(0,0,0,0.25);
+}
+
+/* reviews */
+.reviews-section { max-width: var(--max-width); margin: 28px auto; padding: 0 16px; }
+.reviews-viewport{ overflow: hidden; touch-action: pan-y; -webkit-overflow-scrolling: touch; position: relative; width: 100%; border-radius: 10px; background: rgba(255,255,255,0.02); padding: 12px 0; contain: layout paint; }
+.reviews-track{ display:flex; gap:12px; align-items:stretch; will-change: transform; flex-wrap:nowrap; transform: translateX(0); touch-action:none; }
+.review-card{ flex:0 0 25%; padding:6px; box-sizing:border-box; }
+.review-card img{ width:100%; height:auto; aspect-ratio:1/1; object-fit:cover; border-radius:8px; box-shadow:0 6px 18px rgba(2,6,23,0.06); background:#f4f6fb; }
+
+/* model background */
+.model-background{
+  background: rgba(255,255,255,0.18);
+  border-radius:10px;
+  padding:21px;
+  display:flex;
+  flex-wrap:wrap;
+  gap:12px;
+  justify-content:center;
+  align-items:center;
+  margin:18px 0;
+  box-shadow:0 6px 18px rgba(2,6,23,0.04);
+  transition: background .18s ease, box-shadow .18s ease, border-color .18s ease;
+}
+.model-img{ width:16rem; height:16rem; overflow:hidden; border-radius:8px; display:flex; align-items:center; justify-content:center; background:#eee; }
+.model-img img{ width:100%; height:100%; object-fit:cover; display:block; }
+
+/* mini cart */
+.mini-overlay{ pointer-events:none; }
+.mini-overlay.show{ display:block; opacity:1; visibility:visible; pointer-events:auto; }
+.mini-cart{
+  position: fixed;
+  right: 18px;
+  bottom: 90px;
+  width: 360px;
+  max-width: calc(100% - 36px);
+  background: rgba(255,255,255,0.18);
+  backdrop-filter: blur(10px) saturate(120%);
+  -webkit-backdrop-filter: blur(10px) saturate(120%);
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  box-shadow: 0 6px 18px rgba(2,6,23,0.04);
+  border-radius: 12px;
+  transform: translateY(12px) scale(.995);
+  opacity: 0;
+  transition: background .18s ease, box-shadow .18s ease, border-color .18s ease, transform .18s ease, opacity .18s ease;
+  z-index: 130;
+  display:flex;
+  flex-direction:column;
+  overflow:hidden;
+  border:1px solid rgba(255,255,255,0.06);
+}
+.mini-cart.show{ transform:none; opacity:1; pointer-events:auto; }
+.mini-cart-header{ padding:12px 14px; display:flex; align-items:center; justify-content:space-between; font-weight:800; border-bottom:1px solid rgba(255,255,255,0.06); background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); }
+.mini-close{ background:transparent; border:0; font-size:18px; cursor:pointer; color: var(--text); }
+
+.mini-cart-list{ padding:12px; max-height:300px; overflow:auto; display:flex; flex-direction:column; gap:10px; -webkit-overflow-scrolling: touch; }
+.empty{ text-align:center; color:var(--muted); padding:28px 10px; font-weight:700; }
+.mini-cart-item{ display:flex; gap:12px; align-items:center; padding:8px; border-radius:8px; background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03)); border:1px solid rgba(255,255,255,0.04); }
+.mini-cart-item img{ width:64px; height:64px; border-radius:8px; object-fit:cover; background:#eee; }
+.mini-cart-item .meta{ flex:1; display:flex; flex-direction:column; gap:6px; }
+.mini-cart-item .meta .title{ font-weight:800; font-size:0.95rem; color: var(--text); }
+.mini-cart-item .meta .price{ color:var(--accent); font-weight:900; }
+.controls{ display:flex; flex-direction:column; gap:8px; align-items:flex-end; }
+.qty-controls{ display:flex; gap:6px; align-items:center; }
+.qty-controls button{ border:1px solid rgba(0,0,0,0.06); background: rgba(255,255,255,0.9); padding:6px 8px; border-radius:8px; cursor:pointer; font-weight:800; }
+.qty-num{ min-width:28px; text-align:center; font-weight:800; }
+
+.mini-cart-footer{ padding:12px; border-top:1px solid rgba(255,255,255,0.06); display:flex; flex-direction:column; gap:8px; background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); }
+.subtotal{ display:flex; justify-content:space-between; align-items:center; font-weight:800; color: var(--text); }
+.actions{ display:flex; gap:8px; }
+.btn{ padding:10px 12px; border-radius:8px; text-decoration:none; color:#fff; background: linear-gradient(90deg,var(--accent), #ffb07a); font-weight:800; border:0; cursor:pointer; }
+.btn.secondary{ background: rgba(255,255,255,0.92); color:#111; border:1px solid rgba(0,0,0,0.06); }
+
+/* floating cart */
+.floating-cart{
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  width: 64px;
+  height: 64px;
+  border-radius: 999px;
+  background: linear-gradient(90deg,var(--accent), #ffb07a);
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  color:#fff;
+  z-index:140;
+  border:0;
+  cursor:pointer;
+  box-shadow: 0 22px 60px rgba(2,6,23,0.22);
+  font-weight:900;
+}
+
+/* floating qty & pulse */
+@keyframes pulse { 0%{ transform: scale(1) } 50%{ transform: scale(1.08) } 100%{ transform: scale(1) } }
+.floating-cart.pulse{ animation: pulse .42s ease; }
+
+/* responsive adjustments */
+@media (max-width:480px){
+  .mini-cart{ right:10px; left:10px; bottom:84px; width:auto; }
+  .floating-cart{ right:12px; bottom:12px; width:56px; height:56px; }
+}
+
+/* product image alignment — ensure consistent heights (kept from original) */
+/* Place at end to ensure it overrides earlier img sizing */
+.product-card .img-wrap {
+  padding-top: 0 !important;
+  height: clamp(160px, 22vw, 280px) !important;
+  min-height: 160px !important;
+  width: 100% !important;
+  position: relative !important;
+  overflow: hidden !important;
+  display: block !important;
+  border-radius: 8px !important;
+  background: #f4f6fb;
+}
+.product-card .img-wrap img {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  object-position: center !important;
+  display: block !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  background: transparent !important;
+  border-radius: 0 !important;
+}
+.product-card > img {
+  display: block !important;
+  width: 100% !important;
+  height: clamp(160px, 22vw, 280px) !important;
+  object-fit: cover !important;
+  object-position: center !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border-radius: 8px !important;
+  background: #f4f6fb !important;
+}
+.products-grid { align-items: start !important; }
+
+/* small screen adjustments and touch fixes */
+.reviews-section { max-width: var(--max-width); margin: 28px auto; padding: 0 16px; }
+.reviews-viewport {
+  overflow: hidden;
+    touch-action: pan-y;               
+  -webkit-overflow-scrolling: touch; 
+  position: relative;
+  width: 100%;
+  border-radius: 10px;
+  background: rgba(255,255,255,0.02);
+  padding: 12px 0;
+  contain: layout paint;
+}
+.reviews-track {
+  display: flex;
+  gap: 12px;
+  align-items: stretch;
+  will-change: transform;
+  flex-wrap: nowrap;
+  transform: translateX(0);
+  touch-action: none; 
+}
+.review-card { flex: 0 0 25%; padding: 6px; box-sizing: border-box; }
+.review-card img {
+  width: 100%;
+  height: auto;           
+  aspect-ratio: 1 / 1;     
+  object-fit: cover;
+  display: block;
+  border-radius: 8px;
+  box-shadow: 0 6px 18px rgba(2,6,23,0.06);
+  background: #f4f6fb;
+}
+.review-card { flex: 0 0 25%; padding: 6px; box-sizing: border-box; }
+.review-card img {
+  width: 100%;
+  height: auto;            
+  aspect-ratio: 1 / 1;    
+  object-fit: cover;
+  display: block;
+  border-radius: 8px;
+  box-shadow: 0 6px 18px rgba(2,6,23,0.06);
+  background: #f4f6fb;
+}
+@media (max-width: 430px) {
+  .reviews-track { gap: 1px; }
+.reviews-viewport {
+  touch-action: pan-y;               
+  -webkit-overflow-scrolling: touch; 
+}
+.reviews-track { touch-action: none; }
+  .review-card {
+    flex: 0 0 calc((100% - 0px) / 2);
+    padding: px;
+    box-sizing: border-box;
+  }
+  .review-card img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    border-radius: 8px;
+  }
+}
+@media (max-width: 430px) {
+  .product-card .img-wrap, .product-card > img { height: clamp(140px, 30vw, 200px) !important; }
+  .products-grid{ gap:12px; grid-template-columns: repeat(2, minmax(120px, 1fr)); }
+  .brand .brand-gradient{ font-size: 1.18rem; }
+  .nav-toggle{ font-size:1.25rem; padding:8px; }
+  .cta{ padding:10px 12px; font-size:0.95rem; }
+  .model-img{ width:9rem; height:9rem; }
+}
+@media (max-width: 380px){
+  .products-grid{ grid-template-columns: 1fr; }
+  .review-card { flex:0 0 100%; }
+  .model-img{ width:9rem; height:9rem; }
+}
+
+@media (max-width: 400px){
+    .review-card { flex:0 0 100%; }
+}
+
+/* touch & scroll helpers */
+html, body, main, .hero, .slides, .reviews-viewport, .reviews-track, .model-background, .products-grid {
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-y;
+}
+button, .cta, .qty-btn, .mini-remove, a {
+  -webkit-tap-highlight-color: rgba(0,0,0,0.06);
+  touch-action: manipulation;
+}
+
+/* fix pointer issues from prior CSS */
+.product-card .product-wrap,
+.product-card .product-wrap * ,
+.product-card .placeholder-inner {
+  pointer-events: none;
+}
+.product-card .cta { position: relative; z-index: 2; pointer-events: auto; }
+
+/* prevent accidental dragging of images */
+.product-card img, .reviews-viewport img, .slides img {
+  -webkit-user-drag: none;
+  user-select: none;
+}
+
+/* increase hit-target on coarse pointers */
+@media (pointer: coarse) {
+  .cta, .qty-btn { padding: 10px 12px; min-height: 40px; min-width: 40px; }
+}
+
+/* mini-cart hidden state non-interactive (keeps earlier behavior) */
+#mini-cart[aria-hidden="true"], #mini-cart[aria-hidden="true"] *,
+#mini-overlay[aria-hidden="true"], #mini-overlay[aria-hidden="true"] *,
+#mini-cart[hidden], #mini-overlay[hidden] {
+  pointer-events: none !important;
+}
+.mini-overlay[aria-hidden="true"], .mini-overlay[hidden] { visibility: hidden; opacity: 0; transition: none; pointer-events: none !important; }
+
+ /* phone section & footer (preserved) */
+.phone-section { margin-top: 30px; text-align:center; }
+.phone-header { font-size: clamp(16px, 2.5vw, 20px); font-weight:700; margin-bottom:10px; display:flex; justify-content:center; align-items:center; gap:8px; }
+.phone-icon{ font-size:20px; }
+.phone-numbers{ font-size: clamp(14px, 2.3vw, 18px); font-weight:500; color:#9b9b9b; }
+
+.site-footer{ width:100%; padding:28px 12px; box-sizing:border-box; background:transparent; font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, "Helvetica Neue"; }
+.footer-inner{ max-width:1100px; margin:0 auto; text-align:center; }
+.copyright{ color:#9b9b9b; font-size:1.05rem; margin-bottom:14px; }
+.accept-line{ display:flex; align-items:center; justify-content:center; gap:14px; flex-wrap:wrap; }
+.accept-label{ font-size:1.05rem; color:#7a7a7a; white-space:nowrap; }
+.icons{ display:flex; gap:12px; align-items:center; justify-content:center; flex-wrap:wrap; }
+.pay-icon{ display:inline-block; width:clamp(36px,4.5vw,56px); padding:0; background:none; border:none; box-shadow:none; border-radius:0; object-fit:contain; -webkit-user-drag:none; vertical-align:middle; transition: transform .12s ease; }
+.pay-icon:hover, .pay-icon:focus{ transform: translateY(-3px); }
+
+ /* final small-screen tweaks */
+@media (max-width: 420px) {
+  .copyright { font-size:.95rem; margin-bottom:10px; }
+  .accept-label { font-size:.95rem; }
+  .pay-icon { width:40px; }
+}
+
+
+:root{
+  --max-width: 1200px;
+  --gutter: 16px;
+  --accent: #c84bd6;   /* kept if you want later */
+  --frame-bg: #0f6a74;
+  --text: #111;
+  --radius: 14px;
+}
+
+/* Reset */
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;background:#fff;color:var(--text);font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial}
+body{padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);}
+
+/* Page & heading */
+.page{display:flex;justify-content:center;padding:18px}
+.contact-section{width:100%;max-width:var(--max-width)}
+.heading{
+  text-align:center;
+  font-weight:800;
+  font-size:clamp(20px, 4.5vw, 44px);
+  margin-bottom:18px;
+}
+
+/* ---------- CONTACT ROW ----------
+   Horizontal row, non-wrapping by default (prevents stacking on Samsung/iPhone).
+   On narrow phones we increase the gap and allow horizontal scrolling.
+------------------------------------*/
+:root{
+  --max-width: 1200px;
+  --gutter: 16px;
+  --accent: #c84bd6;   /* kept if you want later */
+  --frame-bg: transparent; /* <-- removed green stroke by default */
+  --text: #9b9b9b;
+  --radius: 14px;
+}
+
+/* Reset */
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;background:#fff;color:var(--text);font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial}
+body{padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);}
+
+/* Page & heading */
+.page{display:flex;justify-content:center;padding:18px}
+.contact-section{width:100%;max-width:var(--max-width)}
+.heading{
+  text-align:center;
+  font-weight:800;
+  font-size:clamp(20px, 4.5vw, 44px);
+  margin-bottom:18px;
+}
+
+/* ---------- CONTACT ROW ----------
+   Horizontal row, non-wrapping by default (prevents stacking on Samsung/iPhone).
+   On narrow phones we increase the gap and allow horizontal scrolling.
+------------------------------------*/
+.contact-row {
+  display: flex;
+  flex-direction: row;         /* force horizontal axis */
+  flex-wrap: nowrap;           /* do not wrap into multiple rows */
+  justify-content: center;
+  gap: clamp(18px, 6vw, 40px); /* default gap for desktop */
+  padding: 0 var(--gutter);
+  align-items: center;
+  overflow-x: auto;           /* allow horizontal scroll on narrow screens */
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+/* hide scrollbar visually but keep scrolling usable */
+@media (max-width: 420px) {
+  .slides {width:min(100%, var(--max-width)); margin: 75px; aspect-ratio: 1.8/1; border-radius: 12px; overflow:hidden; position:relative;
+
+  }
+}
+
+/* Increase spacing on narrow phones (covers iPhone 14 Pro Max portrait) */
+@media (max-width: 430px) {
+  .contact-row {
+    gap: 32px;            /* wider, fixed gap for phone view */
+    padding-left: 18px;   /* small side padding so items don't touch edges */
+    padding-right: 18px;
+  }
+}
+
+/* If you want to allow two-row wrap on VERY tiny devices, uncomment the block below.
+   (By default it's disabled to avoid the vertical stacking you saw on Samsung.)
+*/
+/*
+@media (max-width: 360px) {
+  .contact-row {
+    flex-wrap: wrap;
+    overflow-x: visible;
+    gap: 20px;
+    justify-content: center;
+  }
+  .contact-card { flex: 0 0 45%; }
+}
+*/
+
+/* ---------- CARD ---------- */
+.contact-card{
+  display: inline-flex;       /* inline-flex helps on small devices */
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 10px;
+  min-width: 0;
+  flex: 0 0 auto;            /* prevent grow/shrink; keep intrinsic width */
+  padding: 6px 0;
+  text-decoration: none;
+  color: inherit;
+  transition: transform .18s cubic-bezier(.2,.9,.3,1);
+  will-change: transform;
+  cursor: pointer;
+}
+
+/* Hover / focus lift (also works for .contact-link if you used it) */
+.contact-card:hover,
+.contact-card:focus-visible {
+  transform: translateY(-6px);
+  box-shadow: 0 14px 28px rgba(0,0,0,0.06);
+  outline: none;
+}
+
+/* ---------- IMAGE FRAME (no green stroke) ---------- */
+.img-frame{
+  width: clamp(64px, 16vw, 120px);  /* limit max so it won't force wrapping */
+  height: clamp(64px, 16vw, 120px);
+  border-radius: var(--radius);
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 6px 0 rgba(0,0,0,0.04); /* subtle depth */
+  transform-origin: 50% 50%;
+  transition: box-shadow .18s ease, transform .18s ease;
+  will-change: transform, box-shadow;
+  background: transparent; /* <-- explicit: no colored fill/stroke */
+  border: none;            /* ensure no border */
+}
+
+/* image fit inside frame */
+.img-frame img{
+  max-width: 100%;
+  max-height: 100%;
+  display: block;
+  border-radius: calc(var(--radius) - 6px);
+  object-fit: contain;
+}
+
+/* label */
+.contact-label{
+  font-weight: 800;
+  font-size: clamp(12px, 2.3vw, 16px);
+  margin-top: 4px;
+  letter-spacing: 0.2px;
+}
+
+/* ---------- ANIMATION (pop + tilt) ---------- */
+.contact-card:hover .img-frame,
+.contact-card:focus-visible .img-frame {
+  animation: pop-tilt .36s ease forwards;
+  box-shadow: 0 18px 30px rgba(0,0,0,0.12);
+}
+
+.contact-card:active .img-frame {
+  transform: scale(.98) rotate(0deg);
+  transition: transform .08s ease;
+  box-shadow: 0 8px 14px rgba(0,0,0,0.08);
+}
+
+@keyframes pop-tilt {
+  0%   { transform: scale(1) rotate(0deg); }
+  50%  { transform: scale(1.12) rotate(-6deg); }
+  100% { transform: scale(1.04) rotate(-2.5deg); }
+}
+
+/* keyboard-visible focus style */
+.contact-card:focus-visible { box-shadow: 0 0 0 4px rgba(0,0,0,0.06); }
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .contact-card, .img-frame { transition: none !important; animation: none !important; transform: none !important; box-shadow: none !important; }
+}
+
+html.lang-kh, body.lang-kh, .lang-kh * {
+  font-family: 'Kantumruy Pro', 'Noto Sans Khmer', 'Khmer OS System', system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+}
+
+/* =========================
+   ADDITIONAL: Mobile carousel / hit-target fixes (overrides)
+   - Improves hit area and touch behaviour on iPhone-like screens (iPhone 14)
+   - Keeps existing desktop behaviour, only adds/overrides where needed
+   ========================= */
+
+/* Make the slides container responsive without huge margins on mobile */
+.hero { margin: 12px 12px; display:flex; justify-content:center; }
+.slides {
+  width: min(100%, var(--max-width));
+  aspect-ratio: 16 / 9; /* more standard ratio for responsiveness */
+  max-width: 1920px;
+  border-radius: 12px;
+  overflow: hidden;
+  position: relative;
+  margin: 12px;
+  background: linear-gradient(180deg, rgba(17,17,17,0.02), rgba(0,0,0,0.06));
+  touch-action: pan-y; /* allow vertical page scroll while handling horizontal swipes in JS */
+}
+
+/* ensure each slide fills perfectly and images cover */
+.slide {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: flex-end;
+  padding: 20px;
+  color: #fff;
+  opacity: 0;
+  transform: scale(1.02);
+  transition: opacity .55s ease, transform .55s ease;
+  will-change: opacity, transform;
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-drag: none;
+  background: transparent;
+}
+.slide.show {
+  opacity: 1;
+  transform: scale(1.06);
+  pointer-events: auto;
+}
+
+/* image fills container and stays covered */
+.slide img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  pointer-events: none;
+  -webkit-user-drag: none;
+}
+
+/* improved caption styling for small screens */
+.slide figcaption {
+  position: relative;
+  z-index: 6;
+  max-width: 66%;
+  background: linear-gradient(180deg, rgba(0,0,0,0.28), rgba(0,0,0,0.18));
+  padding: 12px 14px;
+  border-radius: 10px;
+  font-weight: 700;
+  line-height: 1.05;
+  box-shadow: 0 8px 22px rgba(0,0,0,0.28);
+  backdrop-filter: blur(4px);
+}
+.slide figcaption strong { display: block; font-size: clamp(18px, 3.2vw, 30px); }
+.slide figcaption span { display: block; font-weight: 500; font-size: clamp(12px, 2.2vw, 16px); color: rgba(255,255,255,0.92); margin-top: 4px; }
+
+/* Make whole slide area tappable without obstructing swipe gestures */
+.slide .hit {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  touch-action: none; /* pointer events handled via JS for swipes */
+}
+
+/* Dots tweaks: slightly larger touch area on mobile */
+.dots {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 14px;
+  display: flex;
+  gap: 10px;
+  z-index: 20;
+  align-items: center;
+  justify-content: center;
+  padding: 0 6px;
+}
+.dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 12px;
+  background: rgba(255,255,255,0.6);
+  border: 0;
+  display: inline-block;
+  cursor: pointer;
+  transition: transform .16s ease, background .16s ease;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.12);
+}
+.dot.active { background: var(--accent); transform: scale(1.18); }
+
+/* More generous hit targets for coarse pointers (touch devices) */
+@media (pointer: coarse) {
+  .dot { width: 16px; height: 16px; border-radius: 16px; }
+  .slide figcaption { padding: 14px 16px; max-width: 80%; }
+}
+
+/* Specific small-screen adjustments (iPhone widths ~390px - 430px) */
+@media (max-width: 430px) {
+  .slides { margin: 12px; aspect-ratio: 16 / 9; border-radius: 12px; }
+  .slide figcaption { max-width: 86%; font-size: 14px; padding: 12px; }
+  .slide figcaption strong { font-size: clamp(16px, 6vw, 22px); }
+  .dots { bottom: 12px; gap: 12px; }
+  .dot { width: 18px; height: 18px; }
+  .hero { margin: 12px 8px; }
+}
+
+/* Prevent accidental horizontal overflow */
+html, body { overflow-x: hidden; }
+
+/* Respect reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .slide, .dot { transition: none !important; animation: none !important; }
+}
+
+/* Ensure images aren't draggable in Safari */
+.slides img, .slide img { -webkit-user-drag: none; user-drag: none; }
+
+/* End of combined stylesheet */
+/* ---------- Fix: ensure navbar always above slides + push slides below navbar ---------- */
+
+/* Make navbar absolutely sure it is on top */
+nav.nav, .nav {
+  position: fixed;       /* already fixed in your CSS, keep it */
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 9999 !important; /* higher than any slide stacking context */
+}
+
+/* Ensure hero/slide container is below the nav visually and accounts for safe-area */
+header.hero {
+  position: relative; 
+  z-index: 1; /* keep slides under the nav */
+  /* push the hero down so it doesn't sit under the fixed nav (uses your --nav-h variable) */
+  margin-top: calc(var(--nav-h, 64px) + env(safe-area-inset-top) + 8px) !important;
+  /* you may reduce the +8px if you want tighter spacing */
+}
+
+/* Make the slides create a low stacking context (prevent transform stacking from lifting them above the nav) */
+.slides {
+  position: relative;
+  z-index: 1;
+}
+
+/* Ensure each slide stays beneath the nav even when transformed */
+.slide, .slide.show {
+  z-index: 0;
+  /* keep transitions but avoid creating unexpected stacking contexts via z-index */
+  will-change: opacity, transform;
+}
+
+/* Make sure the tappable overlay (.hit) remains interactive */
+.slide .hit {
+  z-index: 2; /* above the slide content but still under the nav (nav = 9999) */
+  position: absolute;
+  inset: 0;
+  background: transparent;
+  border: 0;
+  touch-action: none;
+}
+
+/* Optional: if you want the nav to be semi-transparent and still let the image show *behind* the nav,
+   remove the margin-top above and instead reduce nav background opacity. But most layouts prefer the carousel
+   start below the nav for reliable touch/hit behavior. */
+/* ===========================
+   Fix: nav stacking + responsive figcaption
+   Paste AFTER your existing CSS
+   =========================== */
+
+/* Ensure nav stays above everything */
+nav.nav, .nav {
+  position: fixed; /* keep fixed */
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 9999 !important;
+}
+
+/* Push the hero below the nav (accounts for safe-area on phones) */
+header.hero {
+  position: relative;
+  z-index: 1;
+  margin-top: calc(var(--nav-h, 64px) + env(safe-area-inset-top) + 8px) !important;
+}
+
+/* Keep slides under nav and reduce stacking surprises from transforms */
+.slides {
+  position: relative;
+  z-index: 1;
+  overflow: visible; /* allow caption to sit outside small internal transforms if needed */
+}
+
+/* Reduce aggressive scaling so captions don't get clipped */
+.slide, .slide.show {
+  z-index: 0;
+  will-change: opacity, transform;
+  /* keep subtle scale but not large enough to push caption off-screen */
+  transition: opacity .45s ease, transform .45s ease;
+}
+.slide.show { transform: scale(1.03); }
+
+/* Make figcaption absolutely positioned and fully responsive.
+   This prevents it being cut off and controls exact placement on all viewports. */
+.slide figcaption {
+  position: absolute;
+  bottom: clamp(10px, 3.2vw, 28px); /* responsive bottom offset */
+  left: clamp(10px, 3.2vw, 28px);   /* responsive left offset */
+  right: auto;
+  z-index: 6;                        /* above image but under nav */
+  box-sizing: border-box;
+  width: auto;
+  max-width: clamp(200px, 45%, 620px); /* desktop uses % while phones use fixed min */
+  padding: 10px 14px;
+  border-radius: 10px;
+  background: linear-gradient(180deg, rgba(0,0,0,0.32), rgba(0,0,0,0.18));
+  color: #fff;
+  font-weight: 700;
+  line-height: 1.05;
+  overflow-wrap: break-word;
+  word-break: break-word;
+  white-space: normal;
+  box-shadow: 0 8px 22px rgba(0,0,0,0.26);
+  -webkit-backdrop-filter: blur(3px);
+  backdrop-filter: blur(3px);
+}
+
+/* Responsive font sizing for the caption so it reads well on tiny phones and wide desktops */
+.slide figcaption strong {
+  display:block;
+  font-size: clamp(15px, 3.2vw, 30px);
+}
+.slide figcaption span {
+  display:block;
+  font-size: clamp(12px, 2.1vw, 16px);
+  font-weight:500;
+  margin-top:4px;
+}
+
+/* Extra safety for very large screens: keep caption width sensible */
+@media (min-width: 1200px) {
+  .slide figcaption { max-width: 38%; padding: 12px 16px; }
+  .slide figcaption strong { font-size: clamp(18px, 2.0vw, 32px); }
+}
+
+/* Increase hit area but keep figcaption readable on touch devices */
+@media (pointer: coarse) {
+  .slide figcaption { padding: 14px 16px; max-width: 60%; }
+  .dots .dot { width: 9px; height: 9px; }
+}
+
+/* Ensure the tappable overlay remains clickable (but still under nav) */
+.slide .hit {
+  z-index: 5;
+  position: absolute;
+  inset: 0;
+  background: transparent;
+  border: 0;
+  touch-action: none;
+}
+
+/* Prevent captions from being hidden if slide uses transform: translateZ tricks */
+.slides, .slide { -webkit-transform-style: preserve-3d; transform-style: preserve-3d; }
+
+/* Optional: if you really want the nav to be translucent over the image (instead of pushing the hero down),
+   remove the header.hero margin-top rule above and keep the nav background semi-transparent. The recommended
+   approach is to push the hero below the nav as implemented here for reliable touch behavior. */
+/* ---------- NAV + Darila sizing tweaks (paste at end of CSS) ---------- */
+
+/* Bigger nav globally (keeps nav-inner using var) */
+:root {
+  --nav-h: 72px; /* default larger nav height (desktop & tablet) */
+}
+
+/* Ensure nav-inner respects the new height */
+.nav-inner {
+  height: var(--nav-h);
+  align-items: center;
+  gap: 12px;
+  padding-top: calc(10px + env(safe-area-inset-top));
+}
+
+/* Slightly larger brand/logo on larger screens */
+.brand .brand-gradient {
+  font-size: clamp(1.2rem, 3.6vw, 2.2rem);
+}
+
+/* Mobile / iPhone 14 specific adjustments */
+@media (max-width: 430px) {
+  /* Increase nav height for comfortable hit target on phones */
+  :root { --nav-h: 88px; } /* increases space taken by nav on phones */
+  nav.nav, .nav { padding-top: env(safe-area-inset-top); }
+
+  /* Make brand/logo larger on phone so "Darila" reads bold and clear */
+  .brand .brand-gradient {
+    font-size: clamp(1.6rem, 8vw, 2.6rem);
+    line-height: 1;
+    letter-spacing: -0.01em;
+  }
+
+  /* Move hero slightly further down to avoid overlap with taller nav */
+  header.hero {
+    margin-top: calc(var(--nav-h, 88px) + env(safe-area-inset-top) + 6px) !important;
+  }
+
+  /* Make slide caption main title (strong) larger on phone */
+  .slide figcaption strong {
+    font-size: clamp(18px, 6.6vw, 30px);
+    line-height: 1.02;
+  }
+
+  /* Make the special "Darila" class extra-large and tight */
+  .darila-official {
+    font-size: clamp(20px, 8.6vw, 36px) !important;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+    line-height: 1;
+  }
+
+  /* Slightly increase caption padding so the larger text breathes */
+  .slide figcaption {
+    padding: 14px 16px;
+    max-width: 86%;
+  }
+}

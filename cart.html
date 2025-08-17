@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>Shopping Bag — Darila Official</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="cart.css">
+  <style>
+    a.disabled, button.disabled { opacity: .55; pointer-events: none; }
+  </style>
+</head>
+<body>
+  <nav class="nav" role="navigation" aria-label="Primary navigation">
+    <div class="nav-inner">
+      <a class="brand" href="index.html" aria-label="Darila Official">
+        Darila Official
+      </a>
+
+      <button class="nav-toggle" aria-expanded="false" aria-controls="site-nav" aria-label="Toggle menu">☰</button>
+
+ 
+
+      <ul id="site-nav" class="nav-links" role="menu" aria-hidden="true">
+        <li><a href="index.html#home">Home</a></li>
+        <li><a href="index.html#products">Products</a></li>
+        <li><a href="index.html#contact">Contact</a></li>
+        <li><a href="payment.html">Payment</a></li>
+        <li class="nav-controls">
+          <label for="lang-switcher" class="sr-only">Language</label>
+          <select id="lang-switcher" aria-label="Language switcher">
+            <option value="en">English</option>
+            <option value="kh">ភាសាខ្មែរ</option>
+          </select>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+
+  <main class="bag-wrap" id="main">
+    <section class="bag-card" aria-labelledby="bag-title">
+      <h2 id="bag-title">Shopping Bag</h2>
+
+      <div class="table-scroll">
+        <table class="bag-table" aria-label="Shopping bag">
+          <thead>
+            <tr>
+              <th>Product</th>
+              <th>Price</th>
+              <th>Qty</th>
+              <th>Subtotal</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="bag-items">
+          </tbody>
+        </table>
+      </div>
+
+      <div class="bag-summary">
+        <div class="summary-left">
+          <a href="index.html" class="btn btn-ghost">← Continue shopping</a>
+        </div>
+
+        <div class="summary-right">
+          <div class="summary-row">
+            <div>Subtotal</div>
+            <div id="bag-total" class="summary-amount">$0.00</div>
+          </div>
+          <div class="actions">
+            <button id="checkout-link" class="btn btn-primary">Proceed to Checkout</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  <script src="cart.js" defer></script>
+</body>
+</html>

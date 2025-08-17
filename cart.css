@@ -1,0 +1,135 @@
+/* bag.css — page specific styles that match index visual language */
+
+/* small variables */
+:root {
+  --accent: #ff7a59;
+  --muted: #6b6f76;
+  --card-bg: #ffffff;
+  --radius: 12px;
+  --container: 1100px;
+}
+
+/* safe area handling for iPhone notch */
+body {
+  padding-top: env(safe-area-inset-top);
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+/* page layout */
+.bag-wrap {
+  max-width: var(--container);
+  margin: 24px auto;
+  padding: 0 16px;
+}
+.bag-card {
+  top: 0;
+  /* translucent base — lets page show through */
+  background: rgba(255,255,255,0.18);
+  backdrop-filter: blur(10px) saturate(120%);
+  -webkit-backdrop-filter: blur(10px) saturate(120%);
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  box-shadow: 0 6px 18px rgba(2,6,23,0.04);
+  transition: background .18s ease, box-shadow .18s ease, border-color .18s ease;
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 12px 30px rgba(2,6,23,0.06);
+}
+
+/* horizontal scrolling wrapper for wide tables */
+.table-scroll {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  margin-bottom: 12px;
+}
+
+/* table */
+.bag-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 720px; /* keeps layout on desktop but will adapt on very small screens */
+  font-family: inherit;
+}
+.bag-table thead th {
+  text-align: left;
+  padding: 14px;
+  color: var(--muted);
+  font-weight: 700;
+  border-bottom: 1px dashed rgba(0,0,0,0.06);
+  white-space: nowrap;
+}
+.bag-row td {
+  padding: 12px 14px;
+  border-bottom: 1px solid rgba(0,0,0,0.04);
+  vertical-align: middle;
+}
+
+/* product cell */
+.product-info { display:flex; gap:12px; align-items:center; }
+.product-thumb { width:64px; height:64px; object-fit:cover; border-radius:8px; background:#f3f4f7; display:block; }
+.product-title { font-weight:800; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:220px; }
+.product-sku { color:#888; font-size:0.92rem; }
+
+/* price and controls */
+.cell-price { color: var(--accent); font-weight:800; }
+.cell-subtotal { color: var(--accent); font-weight:800; text-align:left; }
+
+/* qty controls */
+.qty-control { display:inline-flex; gap:8px; align-items:center; }
+.qty-btn { width:34px; height:34px; border-radius:8px; border:0; background:#111; color:#fff; cursor:pointer; font-weight:800; }
+.qty-input { width:62px; padding:6px; border-radius:6px; text-align:center; border:1px solid #e6e6ea; }
+
+/* remove button */
+.remove-btn { background:transparent; border:0; color:#d23; cursor:pointer; font-weight:700; }
+
+/* summary area */
+.bag-summary {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+  margin-top:14px;
+}
+.summary-left { flex:1; }
+.summary-right { display:flex; align-items:center; gap:12px; flex-direction:column; align-items:flex-end; min-width:220px; }
+.summary-row { display:flex; gap:12px; align-items:center; justify-content:flex-end; width:100%; }
+.summary-amount { font-weight:900; color:var(--accent); }
+
+/* buttons */
+.btn { padding:10px 14px; border-radius:8px; border:0; cursor:pointer; font-weight:800; text-decoration:none; display:inline-block; }
+.btn-primary { background:linear-gradient(90deg,var(--accent), #ffb07a); color:#fff; }
+.btn-ghost {top: 0;
+  /* translucent base — lets page show through */
+  background: rgba(255,255,255,0.18);
+  backdrop-filter: blur(10px) saturate(120%);
+  -webkit-backdrop-filter: blur(10px) saturate(120%);
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  box-shadow: 0 6px 18px rgba(2,6,23,0.04);
+  transition: background .18s ease, box-shadow .18s ease, border-color .18s ease; border:1px solid #eee; color:#333; }
+
+/* responsive — collapse table into stacked cards for narrow screens */
+@media (max-width: 720px) {
+  .bag-card { padding:12px; }
+  .bag-table { min-width: 100%; }
+  /* hide the header and make each row a card */
+  .bag-table thead { display: none; }
+  .bag-table, .bag-table tbody, .bag-table tr, .bag-table td { display: block; width: 100%; }
+  .bag-row { display: grid; grid-template-columns: 1fr auto; gap:8px 12px; padding:12px; border-radius:10px; background: linear-gradient(180deg,#fff,#fbfbff); margin-bottom:10px; border:1px solid rgba(0,0,0,0.04); }
+  .bag-row td { padding: 6px 10px; border-bottom: none; }
+  /* product area spans full width */
+  .bag-row td:first-child { grid-column: 1 / -1; display:flex; gap:10px; align-items:center; }
+  .bag-row .cell-price { grid-column: 1 / 2; }
+  .bag-row .cell-subtotal { grid-column: 2 / 3; text-align:right; }
+  .bag-row .qty-cell { grid-column: 1 / 2; margin-top:6px; }
+  .bag-row .remove-cell { grid-column: 2 / 3; display:flex; justify-content:flex-end; align-items:center; }
+  .qty-input { width:64px; }
+  .product-title { max-width: 140px; }
+  .bag-summary { flex-direction:column; align-items:stretch; gap:10px; }
+  .summary-right { align-items:stretch; width:100%; min-width:0; }
+}
+
+/* iPhone 14 Pro Max specific tweak (approx 430px wide) */
+@media (max-width: 430px) {
+  .product-thumb { width:72px; height:72px; }
+  .qty-input { width:72px; }
+}

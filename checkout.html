@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Checkout</title>
+  <link rel="stylesheet" href="checkout.css">
+</head>
+<body>
+<nav class="nav" role="navigation" aria-label="Primary">
+  <div class="nav-inner">
+    <a class="brand" href="#home" aria-label="Go to home">
+      <span class="brand-gradient">Darila Official</span>
+    </a>
+
+    <div class="nav-right">
+      <div class="cart" aria-hidden="false">
+       
+      </div>
+
+<button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="site-nav" aria-label="Toggle menu">
+  <span class="burger" aria-hidden="true"><span></span><span></span><span></span></span>
+</button>
+
+    </div>
+
+    <ul id="site-nav" class="nav-links" role="menu" aria-hidden="true">
+      <li role="none"><a role="menuitem" href="#home">Home</a></li>
+      <li role="none"><a role="menuitem" href="#products">Products</a></li>
+      <li role="none"><a role="menuitem" href="#contact">Contact</a></li>
+      <li role="none"><a role="menuitem" href="cart.html">Cart</a></li>
+
+      <li class="nav-controls" role="none">
+        <label for="lang-switcher" class="sr-only">Language</label>
+        <select id="lang-switcher" aria-label="Language switcher">
+          <option value="en">English</option>
+          <option value="kh">ភាសាខ្មែរ</option>
+        </select>
+      </li>
+    </ul>
+  </div>
+</nav>
+  <main class="checkout-wrap">
+    <h1 class="page-title">Checkout</h1>
+
+    <div class="checkout-grid">
+      <section class="panel" id="order-list">
+        <h2 class="panel-title">Order Summary</h2>
+
+        <div id="checkout">
+          <div id="checkout-empty" class="empty">Your bag is empty. <a href="index.html">Continue shopping</a></div>
+          <div id="checkout-items" class="checkout-items" aria-live="polite"></div>
+        </div>
+      </section>
+
+      <aside class="panel" id="buyer-info">
+        <h2 class="panel-title">Buyer Information</h2>
+
+        <form id="checkout-form" novalidate>
+          <label for="name">Name *</label>
+          <input id="name" name="name" type="text" placeholder="Full name">
+
+          <label for="phone">Phone *</label>
+          <input id="phone" name="phone" type="tel" placeholder="+1 555 555 5555">
+
+          <label for="address">Address *</label>
+          <input id="address" name="address" type="text" placeholder="Shipping address">
+
+          <div class="summary-box">
+            <div class="summary-row"><div>Subtotal</div><div id="subtotal">$0.00</div></div>
+            <div class="summary-row"><div>Delivery</div><div id="shipping">$0.00</div></div>
+            <hr class="summary-divider">
+            <div class="summary-row summary-total"><div>Total</div><div id="total">$0.00</div></div>
+          </div>
+
+          <button id="place-order" type="button" class="btn-primary">Place Order</button>
+        </form>
+      </aside>
+    </div>
+  </main>
+
+  <script src="checkout.js"></script>
+</body>
+</html>

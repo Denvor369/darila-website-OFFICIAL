@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Darila Official — Sunscreen & Fiber</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Berkshire+Swash&family=DM+Serif+Text:ital@0;1&family=Lobster+Two:ital,wght@0,400;0,700;1,400;1,700&display=swapfamily=Gidugu&family=Kantumruy+Pro:ital,wght@0,100..700;1,100..700&family=Koulen&family=League+Gothic&family=Lilita+One&family=Modak&family=Oswald:wght@200..700&family=Smythe&display=swap" rel="stylesheet">
+  <link rel="preload" href="/minf/KantumruyPro-Regular.woff2" as="font" type="font/woff2" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cal+Sans&display=swap" rel="stylesheet">
+  <link rel="preload" href="/minf/KantumruyPro-Bold.woff2" as="font" type="font/woff2" crossorigin>
+
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body id="home">
+<nav class="nav" role="navigation" aria-label="Primary">
+  <div class="nav-inner">
+    <a class="brand" href="#home" aria-label="Go to home">
+      <span class="brand-gradient">Darila Official</span>
+    </a>
+
+    <div class="nav-right">
+      <div class="cart" aria-hidden="false"></div>
+
+      <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="site-nav" aria-label="Toggle menu">
+        <span class="hamburger" aria-hidden="true"></span>
+      </button>
+    </div>
+
+    <ul id="site-nav" class="nav-links" role="menu" aria-hidden="true">
+      <li role="none"><a role="menuitem" href="#home">Home</a></li>
+      <li role="none"><a role="menuitem" href="#products">Products</a></li>
+      <li role="none"><a role="menuitem" href="#contact">Contact</a></li>
+      <li role="none"><a role="menuitem" href="cart.html">Cart</a></li>
+
+      <li class="nav-controls" role="none">
+        <label for="lang-switcher" class="sr-only">Language</label>
+        <select id="lang-switcher" aria-label="Language switcher">
+          <option value="en">English</option>
+          <option value="kh">ភាសាខ្មែរ</option>
+        </select>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+<header class="hero" aria-roledescription="carousel">
+  <div class="slides" aria-live="polite">
+    <figure class="slide show" data-caption="Protect &amp; Glow — Sunscreen">
+      <img src="image/12.jpg" alt="Protect & Glow — Sunscreen" loading="eager" decoding="async" width="1600" height="889" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;" />
+      <figcaption><strong>Protect &amp; Glow</strong><br><span>SPF you can trust</span></figcaption>
+    </figure>
+
+    <figure class="slide" data-caption="Soft &amp; Strong — Fiber">
+      <img src="image/1234.jpg" alt="Soft & Strong — Fiber" loading="lazy" decoding="async" width="1600" height="889" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;" />
+      <figcaption><strong>Soft &amp; Strong</strong><br><span>Daily fiber care</span></figcaption>
+    </figure>
+
+    <figure class="slide" data-caption="New Arrival">
+      <img src="image/123.jpg" alt="New Arrival" loading="lazy" decoding="async" width="1600" height="889" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;" />
+      <figcaption><strong>New Arrival</strong><br><span>Limited edition combo pack</span></figcaption>
+    </figure>
+    <div class="dots" role="tablist" aria-label="Slide indicators"></div>
+  </div>
+</header>
+
+<main>
+  <section id="products" class="reveal">
+    <h2 class="product-title-main">Products</h2>
+    <div class="products-grid">
+      <article class="product-card" data-id="sun1" data-title="Darila Sunscreen" data-price="4.8">
+        <div class="img-wrap">
+          <img loading="lazy" decoding="async" src="image/sunscreen123.jpg" alt="Sunscreen A" width="800" height="800" />
+        </div>
+        <h3 class="product-title">Darila Sunscreen</h3>
+        <div class="price">$4.80</div>
+        <button class="cta add-only" data-id="sun1" type="button">Add to Cart</button>
+      </article>
+
+      <article class="product-card" data-id="fiber1" data-title="Darila Fiber" data-price="14">
+        <div class="img-wrap">
+          <img loading="lazy" decoding="async" src="image/2,soft opening copy.png" alt="Fiber A" width="800" height="800" />
+        </div>
+        <h3 class="product-title">Darila Fiber</h3>
+        <div class="price">$14.00</div>
+        <button class="cta add-and-gos" data-id="fiber1" type="button">Add to Cart</button>
+      </article>
+
+      <article class="product-card" data-id="mask1" data-title="Darila Mask" data-price="9.00">
+        <div class="img-wrap">
+          <img loading="lazy" decoding="async" src="image/maskproduct.jpg" alt="Darila Mask" width="800" height="800">
+        </div>
+        <div class="product-wrap"><div class="placeholder-inner"></div></div>
+        <h3 class="product-title">Darila Mask</h3>
+        <div class="price">$9.00</div>
+        <button class="cta add-and-gos" data-id="mask1" type="button">Add to Cart</button>
+      </article>
+
+      <article class="product-card placeholder" aria-hidden="true">
+        <div class="img-wrap">
+        <img loading="lazy" decoding="async" src="image/comingsoon.png" alt="Coming soon" width="800" height="800" />
+        </div>
+        <div class="product-wrap"><div class="placeholder-inner"></div></div>
+        <h3 class="product-title">Coming soon</h3>
+        <div class="price">???</div>
+        <div class="cta add-and-gos" aria-hidden="true">Coming soon</div>
+        
+      </article>
+    </div>
+  </section>
+
+  <section id="reviews" aria-label="Customer reviews carousel" class="reviews-section">
+    <h3 class="reviewtext">Feedbacks</h3>
+    <div class="reviews-viewport" tabindex="0" aria-live="off">
+      <div class="reviews-track" data-duplicated="false">
+        <div class="review-card"><img src="image/feed.png" alt="Review 1" width="800" heightimg src="image/feed3.png" alt="Review 3" width="800" height="800" loading="lazy" decoding="async"></div>
+        <div class="review-card"><img src="image/feed4.png" alt="Review 4" width="800" height="800" loading="lazy" decoding="async"></div>
+        <div class="review-card"><img src="image/feed5.png" alt="Review 5" width="800" height="800" loading="lazy" decoding="async"></div>
+        <div class="review-card"><img src="image/feed6.jpg" alt="Review 6" width="800" height="800" loading="lazy" decoding="async"></div>
+      </div>
+    </div>
+  </section>
+
+
+  <section id="contact" class="reveal">
+    <h2 class="contact-heading">Contact US</h2>
+    <main class="page">
+      <section class="contact-section" aria-labelledby="contact-heading">
+        <div class="contact-row" role="list">
+          <a class="contact-card" href="https://t.me/" target="_blank" rel="noopener" aria-label="Open Telegram">
+            <div class="img-frame">
+              <img src="image/teicon.png" alt="Telegram logo" />
+            </div>
+            <p class="contact-label">Telegram</p>
+          </a>
+          <a class="contact-card" href="https://m.me/" target="_blank" rel="noopener" aria-label="Open Messenger">
+            <div class="img-frame">
+              <img src="image/msgicon.png" alt="Messenger logo" />
+            </div>
+            <p class="contact-label">Messenger</p>
+          </a>
+          <a class="contact-card" href="https://instagram.com/" target="_blank" rel="noopener" aria-label="Open Instagram">
+            <div class="img-frame">
+              <img src="image/igicon.png" alt="Instagram logo" />
+            </div>
+            <p class="contact-label">Instagram</p>
+          </a>
+          <a class="contact-card" href="https://wa.me/1234567890" target="_blank" rel="noopener" aria-label="Open WhatsApp">
+            <div class="img-frame">
+              <img src="image/waicon.png" alt="WhatsApp logo" />
+            </div>
+            <p class="contact-label">WhatsApp</p>
+          </a>
+        </div>
+        <div class="phone-section">
+          <h3 class="phone-header">
+            <span class="phone-icon">📞</span> Phone Number:
+          </h3>
+          <p class="phone-numbers">
+            12 333 666 / 18 666 333 / 021 999 666
+          </p>
+        </div>
+      </section>
+    </main>
+  </section>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="copyright">Copyright © 2025 By SENG Chhunsour</div>
+      <div class="accept-line">
+        <span class="accept-label">We Accept:</span>
+        <div class="icons">
+          <img class="pay-icon" src="image/aba.png" alt="ABA Bank logo">
+          <img class="pay-icon" src="image/acleda.png" alt="Acleda logo">
+          <img class="pay-icon" src="image/truemoney.png" alt="TrueMoney logo">
+          <img class="pay-icon" src="image/wingbank.png" alt="WingBank logo">
+          <img class="pay-icon" src="image/binance.png" alt="Binance logo">
+        </div>
+      </div>
+    </div>
+  </footer>
+</main>
+
+<aside id="mini-cart" class="mini-cart" role="dialog" aria-label="Shopping cart" aria-hidden="true">
+  <header class="mini-cart-header">
+    <strong>Your Cart</strong>
+    <button id="mini-cart-close" class="mini-close" aria-label="Close">✕</button>
+  </header>
+  <div id="mini-cart-list" class="mini-cart-list" tabindex="0">
+    <div class="empty">Your Cart is empty</div>
+  </div>
+  <footer class="mini-cart-footer">
+    <div class="subtotal"><span>Subtotal</span><strong id="mini-cart-sub">$0.00</strong></div>
+    <div class="actions">
+      <a href="cart.html" class="btn">Check Out</a>
+    </div>
+  </footer>
+</aside>
+<div id="mini-overlay" class="mini-overlay" aria-hidden="true"></div>
+<button id="floating-cart" class="floating-cart" aria-label="Open cart">
+  <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M7 18a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm10 0a1 1 0 1 0 0 2 1 1 0 0 0 0-2zM6.5 6h13l-1 6H8.5L6.5 6z"/></svg>
+  <span id="floating-cart-qty" class="floating-qty" aria-live="polite">0</span>
+</button>
+
+<script src="script.js" defer></script>
+</body>
+</html>
